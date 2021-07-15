@@ -22,7 +22,7 @@ namespace S7ReplApp
 
         private static T GetValue<T>(string[] values, int index, string name, T defaultValue, bool optional = true)
         {
-            if (index >= values.Count())
+            if (index >= values.Length)
             {
                 if (optional)
                     return defaultValue;
@@ -50,6 +50,13 @@ namespace S7ReplApp
             GetValue<int>(parameters, 1, "Offset", 0, false),
             GetValue<int>(parameters, 2, "Length", 0, false),
             useDecimal.Equals("dec", StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static (string IpAddress, int Rack, int Slot) ParseReadParameters(string[] parameters)
+        {
+            return (GetValue(parameters, 0, "IP", "", false),
+            GetValue<int>(parameters, 1, "rack", 0),
+            GetValue<int>(parameters, 2, "slot", 0));
         }
 
         public static (string Command, string[] Params) ParseCommand(string line)
