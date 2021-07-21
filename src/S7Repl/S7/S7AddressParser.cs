@@ -157,6 +157,29 @@ namespace TomPIT.Plc.Addressing
     /// </summary>
     internal class S7AddressParser
     {
+        private Dictionary<S7DataType, int> DataLengths = new Dictionary<S7DataType, int>()
+        {
+            [S7DataType.Bit] = 1,
+            [S7DataType.SInt] = 1,
+            [S7DataType.Int] = 2,
+            [S7DataType.DInt] = 4,
+            [S7DataType.LInt] = 8,
+            [S7DataType.USInt] = 1,
+            [S7DataType.UInt] = 2,
+            [S7DataType.UDInt] = 4,
+            [S7DataType.ULInt] = 8,
+            [S7DataType.Byte] = 1,
+            [S7DataType.Word] = 2,
+            [S7DataType.DWord] = 4,
+            [S7DataType.LWord] = 8,
+            [S7DataType.Real] = 4,
+            [S7DataType.LReal] = 8,
+            [S7DataType.Datetime] = 8,
+            [S7DataType.Date] = 8,
+            [S7DataType.String] = -1,
+            [S7DataType.ByteArray] = -1
+        };
+
         public static bool IsValidAddress(string address)
         {
             try
@@ -229,7 +252,7 @@ namespace TomPIT.Plc.Addressing
                         result.DataType = S7DataType.Int;
                         break;
                     case "X":
-                        result.DataType = S7DataType.Bit; 
+                        result.DataType = S7DataType.Bit;
                         break;
                     default:
                         break;
@@ -270,7 +293,7 @@ namespace TomPIT.Plc.Addressing
 
                 result.Address = Convert.ToInt32(match.Groups["Address"].Value);
             }
-            
+
             return result;
         }
 
@@ -292,7 +315,7 @@ namespace TomPIT.Plc.Addressing
                 result.Address = Convert.ToInt32(match.Groups["Slot"].Value);
                 result.Bit = Convert.ToInt32(match.Groups["Bit"].Value);
             }
-            
+
             return result;
         }
 

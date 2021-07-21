@@ -32,6 +32,8 @@ namespace S7ReplApp
 
         public void Dump(int address, int offset, int length, bool useDecimalValues = false)
         {
+            int printLength = 16;
+
             var buffer = new byte[length];
 
             var result = _plcClient.DBRead(address, offset, length, buffer);
@@ -50,14 +52,14 @@ namespace S7ReplApp
             {
 
                 if (useDecimalValues)
-                    Console.Write($"{value,3} | ");
+                    Console.Write($"{value,3} ");
                 else
-                    Console.Write($"0x{value:X2} | ");
+                    Console.Write($"0x{value:X2} ");
 
-                if (++counter % 8 == 0)
+                if (++counter % printLength == 0)
                 {
                     Console.WriteLine();
-                    address += 8;
+                    address += printLength;
 
                     if (useDecimalValues)
                         Console.Write($"{address,5} - ");
@@ -69,5 +71,6 @@ namespace S7ReplApp
             Console.WriteLine();
             Console.WriteLine();
         }
+
     }
 }
